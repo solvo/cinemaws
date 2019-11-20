@@ -2,8 +2,8 @@ from django.urls import path, include, re_path
 from rest_framework import routers
 
 from mvtheater.generic_views import Clients_rest_view, Movies_rest_view, Cinemas_rest_view, \
-    Matinees_rest_view, Tickets_rest_view, Billboard_rest_view, User_list
-from mvtheater.views import Moviedetails_rest_view, annotate_view, aggregate_view
+    Matinees_rest_view, Tickets_rest_view,   User_list
+from mvtheater.views import Moviedetails_rest_view, annotate_view, aggregate_view, Billboard_rest_view
 from mvtheater.views import Rest_get_object
 
 router = routers.DefaultRouter()

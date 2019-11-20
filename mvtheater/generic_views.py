@@ -58,26 +58,3 @@ class Matinees_rest_view(viewsets.ModelViewSet):
 class Tickets_rest_view(viewsets.ModelViewSet):
     queryset = Tickets.objects.all()
     serializer_class = Tickets_serializer
-
-class Billboard_rest_view(ListAPIView, viewsets.ViewSet):
-    lookup_url_kwarg = "date"
-    serializer_class = Matinees_serializer
-    queryset = Matinees.objects.all()
-    #renderer_classes = [JSONRenderer]
-    filterset_fields = ['data_time']
-
-    def get_queryset(self):
-
-        querydate = timezone.now().date()
-        uoption = self.request.query_params.get('date')
-        if uoption != None:
-            try:
-                newdate = parser.parse(uoption)
-                if newdate:
-                    querydate=newdate.date()
-            except ValueError as e:
-                pass
-            except OverflowError as eo:
-                pass
-
-        return Matinees.objects.filter(data_time__date=querydate)

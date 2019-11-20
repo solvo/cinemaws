@@ -10,7 +10,7 @@ from django.utils.dateparse import parse_date
 from django_filters.rest_framework import DjangoFilterBackend
 from mvtheater.pagination import Mamtinees_list_pagination
 from mvtheater.utils import get_movie_details_from_api, check_for_matinees
-from rest_framework import views, status, permissions
+from rest_framework import views, status, permissions, viewsets
 from rest_framework.decorators import api_view
 from rest_framework.generics import ListAPIView
 from rest_framework.response import Response
@@ -127,10 +127,11 @@ class Moviedetails_rest_view(views.APIView):
             return Response(result)
         return Response({'error':'No data found!'})
 
-class Billboard_rest_view(ListAPIView):
+class Billboard_rest_view(ListAPIView, viewsets.ViewSet):
     lookup_url_kwarg = "date"
     serializer_class = Matinees_serializer
     pagination_class = Mamtinees_list_pagination
+    queryset = Matinees.objects.all()
 
     def get_queryset(self):
         uoption = self.request.query_params.get('date')
