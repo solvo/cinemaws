@@ -1,5 +1,5 @@
 from django.contrib.auth.models import User
- from django.db.models import Count, F, Q, Sum, FloatField
+from django.db.models import Count, F, Q, Sum, FloatField
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
 from django.utils import timezone
