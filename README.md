@@ -64,7 +64,7 @@ Para ejecutar un servidor web de desarrollo se ejecuta
 
    python manage.py runserver
 
-Este servidor se reincia cada vez que hay una modificación en un archivo
+Este servidor se reinicia cada vez que hay una modificación en un archivo
 
 
 # Creación de un usuario superadministrador

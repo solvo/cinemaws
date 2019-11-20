@@ -1,22 +1,20 @@
 from django.contrib.auth.models import User
-from django.contrib.auth.models import User
-from django.db.models import Count, F, Q, Sum
+from django.db.models import Count, F, Q, Sum, FloatField
 from django.http import JsonResponse
-# Create your views here.
 from django.shortcuts import get_object_or_404
 from django.utils import timezone
-# Create your views here.
 from django.utils.dateparse import parse_date
 from django_filters.rest_framework import DjangoFilterBackend
-from mvtheater.pagination import Mamtinees_list_pagination
-from mvtheater.utils import get_movie_details_from_api, check_for_matinees
-from rest_framework import views, status, permissions, viewsets
+from rest_framework import views, status
+from rest_framework import viewsets
 from rest_framework.decorators import api_view
 from rest_framework.generics import ListAPIView
 from rest_framework.response import Response
 
-from mvtheater.models import Movies, Cinemas, Matinees
+from mvtheater.models import Movies, Cinemas, Matinees, Tickets
+from mvtheater.pagination import Mamtinees_list_pagination
 from mvtheater.serializers import User_serializer, Matinees_serializer
+from mvtheater.utils import get_movie_details_from_api, check_for_matinees
 
 
 class My_view(views.APIView, DjangoFilterBackend):   #OrderingFilter SearchFilter
@@ -170,3 +168,19 @@ def aggregate_view(request, datein, dateend):
     result = date_filtered.aggregate(**temp_dict)
     return JsonResponse(result, safe=False)
 
+@api_view(['GET'])
+def aggregate_view2(request, datein, dateend):
+    """
+    :param request:
+    :return: a list of cinemas and its matinees
+    """
+    initial_date = parse_date(datein)
+    final_date = parse_date(dateend)
+    costs = {}
+    cinemas = Cinemas.objects.all()
+    for cinema in cinemas:
+        c = Tickets.objects.filter(matinee__data_time__range=(initial_date, final_date), matinee__cinema=cinema).count()
+        costs[cinema.name.replace(" ", "_")] = Sum(F('matinees__cost')*c, filter=Q(matinees__cinema=cinema),
+                                                   output_field=FloatField(), default=0.0)
+    result = cinemas.aggregate(**costs)
+    return JsonResponse(result, safe=False)
