@@ -68,7 +68,7 @@ class Tickets(models.Model):
                                 verbose_name=_("Matinee"),related_name='tickets')
     client = models.ForeignKey(Clients, on_delete=models.CASCADE,
                                verbose_name=_("Client"),null=True,blank=True)
-    qrcode = models.ImageField(upload_to='qrcode/', null=True, blank=True,
+    qrcode = models.FileField(upload_to='qrcode/', null=True, blank=True,
                                verbose_name=_("QR code"))
     transaction = models.ForeignKey(Transaction,on_delete=models.CASCADE,related_name='transaction')
     state = models.BooleanField(default=False, verbose_name=_("It was used"))
