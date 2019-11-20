@@ -47,3 +47,19 @@ En caso de iniciar desde 0 debe hacer lo siguiente
     python manage.py startapp mvthater
     
 
+# Creación de migraciones
+
+Para crear la base de datos se debe ejecutar
+
+   python manage.py migrate
+
+Para crear las migraciones en la base de datos se debe ejecutar
+
+   python manage.py makemigrations
+   python manage.py migrate
+   
+# Ejecución de la aplicación
+
+   python manage.py runserver
+   
+  
