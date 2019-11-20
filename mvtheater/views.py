@@ -1,22 +1,22 @@
 from django.contrib.auth.models import User
-from django.contrib.auth.models import User
 from django.db.models import Count, F, Q, Sum
-from django.http import JsonResponse
+from django.http import Http404, JsonResponse
+
 # Create your views here.
 from django.shortcuts import get_object_or_404
 from django.utils import timezone
-# Create your views here.
 from django.utils.dateparse import parse_date
 from django_filters.rest_framework import DjangoFilterBackend
-from mvtheater.pagination import Mamtinees_list_pagination
-from mvtheater.utils import get_movie_details_from_api, check_for_matinees
+
 from rest_framework import views, status, permissions
 from rest_framework.decorators import api_view
 from rest_framework.generics import ListAPIView
 from rest_framework.response import Response
 
 from mvtheater.models import Movies, Cinemas, Matinees
+from mvtheater.pagination import Mamtinees_list_pagination
 from mvtheater.serializers import User_serializer, Matinees_serializer
+from mvtheater.utils import get_movie_details_from_api, check_for_matinees
 
 
 class My_view(views.APIView, DjangoFilterBackend):   #OrderingFilter SearchFilter
@@ -83,8 +83,6 @@ class My_view(views.APIView, DjangoFilterBackend):   #OrderingFilter SearchFilte
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-
-
 class Rest_get_object(views.APIView):
     queryset = User.objects.all()
     serializer_class = User_serializer
@@ -120,6 +118,7 @@ class Rest_get_object(views.APIView):
 
 
 class Moviedetails_rest_view(views.APIView):
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
     def get(self, request, pk):
         if pk != None:
             movie = get_object_or_404(Movies, id=pk)
@@ -130,6 +129,7 @@ class Moviedetails_rest_view(views.APIView):
 class Billboard_rest_view(ListAPIView):
     lookup_url_kwarg = "date"
     serializer_class = Matinees_serializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
     pagination_class = Mamtinees_list_pagination
 
     def get_queryset(self):
@@ -141,7 +141,7 @@ class Billboard_rest_view(ListAPIView):
         matinees = check_for_matinees(timezone.now())
         return matinees
 
-# Create your views here.
+
 # ------------------------- Function Based Views -------------------------------
 @api_view(['GET'])
 def annotate_view(request):
