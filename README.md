@@ -29,5 +29,21 @@ Se abordarán los temas:
 ## Algunas acciones de las vistas y gestión de pagos
 
 - Filtros y paginación en vistas.
-- Payments
+- Pagos electrónicos.
+
+# Construcción del proyecto 
+
+Cree un entorno virtual
+
+   virtualenv -p python3 .env
+   source .env/bin/activate
+   pip install -r requirements.txt
+   
+En caso de iniciar desde 0 debe hacer lo siguiente
+
+    pip install django
+    django-admin startproject mvtheater_prj
+    cd mvtheater_prj
+    python manage.py startapp mvthater
+    
 

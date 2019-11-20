@@ -1,0 +1,8 @@
+django==2.2.7
+djangorestframework==3.10.3
+django-filter==2.2.0
+djangorestframework_simplejwt==4.3.0
+requests==2.22.0
+stripe==2.40.0
+pillow==6.2.1
+dateutils==0.6.7
