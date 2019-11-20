@@ -60,6 +60,35 @@ Para crear las migraciones en la base de datos se debe ejecutar
    
 # Ejecución de la aplicación
 
+Para ejecutar un servidor web de desarrollo se ejecuta
+
    python manage.py runserver
-   
+
+Este servidor se reincia cada vez que hay una modificación en un archivo
+
+
+# Creación de un usuario superadministrador
+
+Los usuarios super administradores son aquellos que tienen acceso a todos los modelos
+de la base de datos, generalmente son creados como mencanismos de respaldo, no se recomienda
+usarlos como usuarios de la plataforma si esta crea vistas fuera de la vista administrativa
+
+    python manage.py createsuperuser   
+  
+# Volcado de datos de la DB a Json y  cargado de datos desde Json a DB 
+
+En muchas ocaciones se necesita migrar los datos de una base de datos a otra de forma
+simple, django tiene los siguientes utilitarios para esta tarea.
+
+Para extraer la información y cargarla a disco se usa:
+
+  python manage.py dumpdata appname appname.model > data.json
+  
+Donde appname corresponde a la aplicación que deseamos transformar, tambíen se puede hacer con modelos poniendo appname.model donde 
+model es el nombre del modelo en minusculas.
+
+Para cargar la información desde un archivo de json se ejecuta
+
+  python manage.py loaddata data.json
+  
   
