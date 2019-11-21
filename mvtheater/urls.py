@@ -1,5 +1,6 @@
 from django.urls import path, include, re_path
 from rest_framework import routers
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 from mvtheater.generic_views import Clients_rest_view, Movies_rest_view, Cinemas_rest_view, \
     Matinees_rest_view, Tickets_rest_view,   User_list
@@ -28,4 +29,9 @@ urlpatterns = [
 
 
 
+urlpatterns += [
+    path('api-auth/', include('rest_framework.urls')),  # http -a admin:password123 POST http://127.0.0.1:8000/snippets/ code="print(789)"
+    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+]
 
